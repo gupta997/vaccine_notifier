@@ -1,0 +1,51 @@
+Each section and variable in user_input.cfg is explained here:
+
+
+1. Section: REQUIRED
+	Don't leave any of the variables under this section empty. If you do so the script will fail.
+	So, please fill all the values in this section.
+	
+	a. vaccine
+		Enter the vaccine name you want to search for. Currently supported choice by COWIN app are 'COVISHIELD', 'COVAXIN' and 'SPUTNIK V'
+		You can enter single, double or all three vaccines to enable customised search.
+		If entering more than one vaccine, separate by comma and vaccine names should be in capital.
+	
+	b. min_age
+		Enter the minimum age of the slot you want to fetch. Currently supported options are 18,45.
+		Enter one or both values(comma separated).
+	c. fee
+		Enter whether you want a free or paid slot. Type 'Free' for free slot, 'Paid' otherwise.
+		You can also enter both(comma separated).
+	d. pincode
+		Enter the pincode of your area.
+	e. user_agent
+		On google type 'my user agent' and paste the result under this field.
+	f. script_folder
+		Enter the complete path of the folder where you have saved all the script files. 
+
+2. Section: OPTIONAL
+	All variables under this section are optional and have been provided some default values.
+
+	a. dose
+		You can enter dose as '1' or '2' depending on whether you are getting first shot or second respectively.
+		You can leave empty or enter '1,2' if you want all the slots to be displayed where any dose(1 or 2) is available.
+	b. date
+		This defines the date for which you want to get the slots. It will take default date as the next date of current date(i.e. if you run script on 22-05-2021, default date will be 23-05-2021).
+		You can also enter any preferrable date in format '22-05-2021' represents 22 may, 2021. Enter only one date.
+	c. search_by
+		This script also allows you to get slots by your district_id rather than pin code(pincode api is the default case)
+		You should enter keyword 'district_id' here and then follow the steps:
+			1. district_id
+				Enter the district_id value in the variable 'district_id'. In case you fail to enter district_id, script will fail.
+			2. If you are unable to find district_id then you can use 'get_districts()' function provided in utils.py and replace the state_id with your corresponding state id in file 'state_id.json'
+	d. timeout
+		This is the time for which script sleeps after unsuccessfully looking for a slot. Default is set to 15 mins.
+		You can enter any integer and the process will sleep for that many minutes.
+	e. max_retries
+		This is the maximum no. of unsuccessful retries the script will make before exiting. The default is sys.maxsize.
+		If you prefer less retries, you can enter any integer.
+
+3. Section: TWILIO
+	These are the credentials you get after opening free twilio account. Just copy paste them from there website.
+	d. receiver_no
+		Enter the no. on which you wish to receive notifications.
