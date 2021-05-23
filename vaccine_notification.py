@@ -4,12 +4,13 @@ import pandas as pd
 import utils
 from twilio.rest import Client
 
-log_filename = f'{config_dict["script_folder"]}\vaccine_notifier_{datetime.now().strftime("%d-%m-%Y")}.log'
-logger = utils.create_logger(log_filename)
 config_dict = utils.read_configs_file()
+log_filename = f'{config_dict["script_folder"]}/vaccine_notifier_{datetime.now().strftime("%d-%m-%Y")}.log'
+logger = utils.create_logger(log_filename)
 
 
-file_name = config_dict['script_folder'] + 'vaccine_data.xlsx'
+
+file_name = f'{config_dict["script_folder"]}/vaccine_data.xlsx'
 url_availability_by_district_id = 'https://cdn-api.co-vin.in/api/v2/appointment/sessions/public/findByDistrict?district_id={}&date={}'
 url_availability_by_pin = 'https://cdn-api.co-vin.in/api/v2/appointment/sessions/public/findByPin?pincode={}&date={}'
 
