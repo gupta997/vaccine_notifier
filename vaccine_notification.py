@@ -4,16 +4,15 @@ import pandas as pd
 import utils
 from twilio.rest import Client
 
-config_dict = utils.read_configs_file()
-log_filename = f'{config_dict["script_folder"]}/vaccine_notifier_{datetime.now().strftime("%d-%m-%Y")}.log'
+BASE_PATH = 'C:/Users/welll/Documents/vaccine_notifier'
+
+config_dict = utils.read_configs_file(BASE_PATH)
+log_filename = f'{BASE_PATH}/vaccine_notifier_{datetime.now().strftime("%d-%m-%Y")}.log'
 logger = utils.create_logger(log_filename)
 
-
-
-file_name = f'{config_dict["script_folder"]}/vaccine_data.xlsx'
+excel_file_name = f'{BASE_PATH}/vaccine_data.xlsx'
 url_availability_by_district_id = 'https://cdn-api.co-vin.in/api/v2/appointment/sessions/public/findByDistrict?district_id={}&date={}'
 url_availability_by_pin = 'https://cdn-api.co-vin.in/api/v2/appointment/sessions/public/findByPin?pincode={}&date={}'
-
 
 headers = {
     'user-agent': config_dict['user_agent']
@@ -113,9 +112,9 @@ def get_vaccine_slots(vaccine_data, failed_retries):
         if not df.empty:
             logger.debug('Available slots found')
             body = df[alert_fields].to_json()
-            df.to_excel(file_name)
-            logger.debug(f'Available slots data written to the excel {file_name}')
-            print(f'Slots are available. Check the excel {file_name}')
+            df.to_excel(excel_file_name)
+            logger.debug(f'Available slots data written to the excel {excel_file_name}')
+            print(f'Slots are available. Check the excel {excel_file_name}')
             send_alert(body)
             return True
         return False
@@ -154,9 +153,11 @@ if __name__ == "__main__":
         while retries <= max_retries:
             logger.debug(f'Starting processing for retry no. :: {retries}')
 
+            # fetching data from api
             with requests.session() as s:
                 vaccine_data = s.get(url, headers=headers).json()
 
+            # if slot not found, keep retrying until retries exhausted or slot is found
             if not get_vaccine_slots(vaccine_data=vaccine_data, failed_retries=failed_retries):
 
                 if retries < max_retries:
@@ -169,6 +170,7 @@ if __name__ == "__main__":
 
             else:
                 break
+        logger.debug('SUCCESSFUL :: Exiting the script as slots were found')
 
     except Exception as e:
         logger.error('ERROR::' + str(e) + '\n\n\n')

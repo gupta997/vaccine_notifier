@@ -20,8 +20,6 @@ Each section and variable in user_input.cfg is explained here:
 		Enter the pincode of your area.
 	e. user_agent
 		On google type 'my user agent' and paste the result under this field.
-	f. script_folder
-		Enter the complete path of the folder where you have saved all the script files. 
 
 2. Section: OPTIONAL
 	All variables under this section are optional and have been provided some default values.

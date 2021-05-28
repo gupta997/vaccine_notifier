@@ -15,12 +15,12 @@ def create_logger(filename):
     return logger
 
 
-def read_configs_file():
+def read_configs_file(filepath):
     """
     Read the inputs provided by user in user_input.cfg file
     :return:
     """
-    config_file = {'user_input.cfg': ['REQUIRED', 'OPTIONAL', 'TWILIO']}
+    config_file = {f'{filepath}/user_input.cfg': ['DEFAULT', 'REQUIRED', 'OPTIONAL', 'TWILIO']}
     config_parser = configparser.ConfigParser()
     config_parser.optionxform = str
 
